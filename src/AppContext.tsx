@@ -52,7 +52,7 @@ export const AppProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
     const [cards, setCards] = useState<Card[]>([]);
     const [loadingCards, setLoadingCards] = useState(true);
     const [overlayCard, setOverlayCard] = useState<Card | null>(null);
-    const [savedAt, setSavedAt] = useState(moment().unix());
+    const [savedAt, setSavedAt] = useState(0);
     const [savingCards, setSavingCards] = useState(false);
     // Flag indicating whether cards positions have changed since the last save.
     const isDirtyRef = useRef(false);
@@ -99,7 +99,12 @@ export const AppProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
     }, []);
 
     useEffect(() => {
-        const handleSavingCards = async () => {
+        // Every 5s we will check if the cards have been moved via the
+        // isDirtyRef flag. If moved, then we will call `saveCards` API.
+        const id = setInterval(async () => {
+            // Nothing to do if the cards haven't moved.
+            if (!isDirtyRef.current) return;
+
             setSavingCards(true);
 
             await saveCards(cardsLatest.current);
@@ -107,18 +112,6 @@ export const AppProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
             setSavedAt(moment().unix());
             setSavingCards(false);
             isDirtyRef.current = false;
-        };
-
-        // Save on mount at the start.
-        handleSavingCards();
-
-        // Every 5s we will check if the cards have been moved via the
-        // isDirtyRef flag. If moved, then we will call `saveCards` API.
-        const id = setInterval(async () => {
-            // Nothing to do if the cards haven't moved.
-            if (!isDirtyRef.current) return;
-
-            handleSavingCards();
         }, 5000);
 
         return () => clearInterval(id);

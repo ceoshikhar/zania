@@ -21,8 +21,15 @@ export const Home: React.FC = () => {
             );
         }
 
+        if (savedAt === 0)
+            return (
+                <StyledSaving>
+                    Not saved even once. Move cards to trigger a save.
+                </StyledSaving>
+            );
+
         return <StyledSaving>Saved at {savedAtFormatted}</StyledSaving>;
-    }, [savedAtFormatted, savingCards]);
+    }, [savedAt, savedAtFormatted, savingCards]);
 
     if (loadingCards) {
         return <Spinner size={16} />;
