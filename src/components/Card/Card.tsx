@@ -3,28 +3,31 @@ import styled from "styled-components";
 
 import { Card as CardType } from "../../types";
 import { Spinner } from "../Spinner/Spinner";
+import { useApp } from "../../AppContext";
 
 type CardProps = {
-    data: CardType;
+    card: CardType;
 };
 
-export const Card: React.FC<CardProps> = ({ data }) => {
+export const Card: React.FC<CardProps> = ({ card }) => {
     const [loading, setLoading] = useState(true);
+
+    const { openOverlay } = useApp();
 
     const handleLoad = () => {
         setLoading(false);
     };
 
     return (
-        <div>
-            <h3>{data.title}</h3>
+        <div onClick={() => openOverlay(card)}>
+            <h3>{card.title}</h3>
             <StyledSpinnerContainer $loading={loading}>
                 <Spinner />
             </StyledSpinnerContainer>
 
             <StyledImage
-                src={data.image}
-                alt={data.title}
+                src={card.image}
+                alt={card.title}
                 height="200px"
                 width="200px"
                 onLoad={handleLoad}

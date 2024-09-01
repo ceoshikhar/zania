@@ -3,16 +3,21 @@ import styled from "styled-components";
 
 import { Card } from "../components/Card/Card";
 import { useApp } from "../AppContext";
+import { Overlay } from "../components/Overlay/Overlay";
 
 export const Home: React.FC = () => {
     const { cards } = useApp();
 
     return (
-        <StyledContainer>
-            {cards.map((item) => (
-                <Card key={item.type} data={item} />
-            ))}
-        </StyledContainer>
+        <>
+            <Overlay />
+
+            <StyledContainer>
+                {cards.map((item) => (
+                    <Card key={item.type} card={item} />
+                ))}
+            </StyledContainer>
+        </>
     );
 };
 
