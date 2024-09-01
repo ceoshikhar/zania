@@ -1,5 +1,21 @@
 import styled, { keyframes } from "styled-components";
 
+type SpinnerProps = {
+    color?: string;
+    size?: number;
+    sizeUnit?: "px" | "em" | "rem";
+};
+
+export const Spinner: React.FC<SpinnerProps> = ({
+    color = "#003459",
+    size = 30,
+    sizeUnit = "px",
+}) => (
+    <Container $size={size} $sizeUnit={sizeUnit}>
+        <Ring color={color} $size={size} $sizeUnit={sizeUnit} />
+    </Container>
+);
+
 const motion = () => keyframes`
     0% {
         transform: rotate(0deg);
@@ -29,19 +45,3 @@ const Ring = styled.div<{ $size: number; $sizeUnit: string }>`
     border-color: ${(props) => props.color} transparent transparent transparent;
     animation: ${() => motion()} 1.4s cubic-bezier(0.5, 0, 0.5, 1) infinite;
 `;
-
-type SpinnerProps = {
-    color?: string;
-    size?: number;
-    sizeUnit?: "px" | "em" | "rem";
-};
-
-export const Spinner: React.FC<SpinnerProps> = ({
-    color = "#003459",
-    size = 30,
-    sizeUnit = "px",
-}) => (
-    <Container $size={size} $sizeUnit={sizeUnit}>
-        <Ring color={color} $size={size} $sizeUnit={sizeUnit} />
-    </Container>
-);
