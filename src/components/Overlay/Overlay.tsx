@@ -41,10 +41,11 @@ const StyledModalContainer = styled.div`
     background: #fff;
     height: 100%;
     width: 100%;
+    min-width: 500px;
     max-width: fit-content;
     max-height: 500px;
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: center;
     overflow: none;
 `;

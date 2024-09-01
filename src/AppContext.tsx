@@ -21,6 +21,8 @@ type ContextType = {
     openOverlay: (card: Card) => void;
     // Closes the overlay/modal.
     closeOverlay: () => void;
+    // Swaps 2 cards.
+    swapCards: (pos1: number, pos2: number) => void;
 };
 
 const AppContext = createContext<ContextType>({
@@ -28,11 +30,12 @@ const AppContext = createContext<ContextType>({
     overlayCard: null,
     openOverlay: () => {},
     closeOverlay: () => {},
+    swapCards: () => {},
 });
 AppContext.displayName = "AppContext";
 
 export const AppProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
-    const [cards] = useState<Card[]>(staticData);
+    const [cards, setCards] = useState<Card[]>(staticData);
 
     const [overlayCard, setOverlayCard] = useState<Card | null>(null);
 
@@ -44,9 +47,27 @@ export const AppProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
         setOverlayCard(null);
     }, []);
 
+    const swapCards = useCallback((pos1: number, pos2: number) => {
+        setCards((prev) => {
+            const copy = Array.from(prev);
+
+            const card1 = copy[pos1];
+            card1.position = pos2;
+
+            const card2 = copy[pos2];
+            card2.position = pos1;
+
+            // Swap
+            copy[pos1] = card2;
+            copy[pos2] = card1;
+
+            return copy;
+        });
+    }, []);
+
     const value = useMemo(
-        () => ({ cards, overlayCard, openOverlay, closeOverlay }),
-        [cards, closeOverlay, openOverlay, overlayCard]
+        () => ({ cards, overlayCard, openOverlay, closeOverlay, swapCards }),
+        [cards, closeOverlay, openOverlay, overlayCard, swapCards]
     );
 
     return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
