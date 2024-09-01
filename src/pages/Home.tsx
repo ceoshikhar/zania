@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 import { Card } from "../components/Card/Card";
 import { useApp } from "../AppContext";
+import { Spinner } from "../components/Spinner/Spinner";
 
 const StyledContainer = styled.div`
     padding: 40px;
@@ -16,6 +17,7 @@ export const Home: React.FC = () => {
 
     return (
         <StyledContainer>
+            <Spinner />
             {cards.map((item) => (
                 <Card key={item.type} data={item} />
             ))}
