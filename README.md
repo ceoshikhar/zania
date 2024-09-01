@@ -4,6 +4,20 @@ This is the task for the Senior Software Engineer (Frontend) role at Zania.
 
 In order to make it easy for you guys to test the app, I have gone ahead and deployed it on vercel - https://zania-ai.vercel.app. You can go to the link and test the app.
 
+#### If you still want to run and test it on your local machine, follow the steps :
+
+Install all the depedencies
+
+```bash
+npm i
+```
+
+Run the app
+
+```bash
+npm run start
+```
+
 I received a task PDF which was for a full stack task and I was told to just do the frontend related tasks. Hopefully I haven't missed something crucial.
 
 ### Features
